@@ -1,0 +1,14 @@
+language: node_js
+cache: yarn
+node_js:
+  - 8
+  - 10
+before_script:
+  - yarn global add codecov
+  - yarn --frozen-lockfile
+  - lerna bootstrap
+script:
+  - yarn build
+  - yarn lint
+  - yarn test:coverage
+  - codecov
