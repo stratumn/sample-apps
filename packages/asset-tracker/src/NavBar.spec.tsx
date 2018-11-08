@@ -30,7 +30,7 @@ describe('NavBar', () => {
 
     const homeLink = wrapper.find(Link).first();
     expect(homeLink.props().to).toEqual('/');
-    expect(homeLink.text()).toEqual('Home');
+    expect(homeLink.text()).toEqual('HOME');
   });
 
   it('displays links to each asset', () => {

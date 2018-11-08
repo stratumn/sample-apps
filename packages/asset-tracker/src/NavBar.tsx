@@ -22,15 +22,31 @@ export interface NavBarProps {
 }
 
 export const NavBar: SFC<NavBarProps> = ({ assets }) => (
-  <div>
-    <nav>
-      <ul>
-        <li key='home'>
-          <Link to='/'>Home</Link>
+  <div style={{ height: '100vh' }}>
+    <nav style={{ margin: '5px' }}>
+      <ul
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          listStyleType: 'none',
+          margin: '5px',
+          padding: '0px',
+          textAlign: 'left'
+        }}
+      >
+        <li key='home' style={{ padding: '25px', textAlign: 'center' }}>
+          <Link to='/' style={{ color: 'white', textDecoration: 'none' }}>
+            HOME
+          </Link>
         </li>
         {assets.map((asset: string) => (
-          <li key={asset}>
-            <Link to={`/${asset}`}>{asset}</Link>
+          <li key={asset} style={{ padding: '2px' }}>
+            <Link
+              to={`/${asset}`}
+              style={{ color: 'white', textDecoration: 'none' }}
+            >
+              {asset}
+            </Link>
           </li>
         ))}
       </ul>

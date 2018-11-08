@@ -24,11 +24,26 @@ class App extends Component {
     const assets = ['asset1', 'asset2'];
     return (
       <Router>
-        <div>
-          <NavBar assets={assets} />
-          <Route path='/' exact component={Home}>
-            <Home />
-          </Route>
+        <div
+          style={{
+            alignItems: 'stretch',
+            display: 'flex',
+            height: '100vh',
+            textAlign: 'center'
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: '#3B058D',
+              color: 'white',
+              flexBasis: '20%'
+            }}
+          >
+            <NavBar assets={assets} />
+          </div>
+          <div style={{ color: '#5246f7', flexBasis: '80%' }}>
+            <Route path='/' exact component={Home} />
+          </div>
         </div>
       </Router>
     );

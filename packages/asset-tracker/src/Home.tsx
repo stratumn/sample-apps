@@ -17,13 +17,16 @@
 import React, { SFC } from 'react';
 
 export const Home: SFC = () => (
-  <div>
+  <div style={{ textAlign: 'center' }}>
     <h1>Asset Tracker</h1>
     <p>Welcome to the Asset Tracker Demo App.</p>
     <p>
       Assets that you have already created can be viewed by clicking on their
-      name on the left menu. See the README for details about the store and the
-      scenario that you can try.
+      name on the left menu.
+    </p>
+    <p>
+      See the README for details about the store and the scenario that you can
+      try.
     </p>
   </div>
 );

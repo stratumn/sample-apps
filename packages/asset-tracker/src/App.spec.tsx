@@ -16,7 +16,7 @@
 
 import { shallow } from 'enzyme';
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import App from './App';
 import { Home } from './Home';
 import { NavBar } from './NavBar';
@@ -33,8 +33,9 @@ describe('App', () => {
     expect(wrapper.find(NavBar).prop('assets')).toEqual(['asset1', 'asset2']);
   });
 
-  it('renders a home component', () => {
+  it('renders a home component on root url', () => {
     const wrapper = shallow(<App />);
-    expect(wrapper.find(Home)).toHaveLength(1);
+    expect(wrapper.find(Route)).toHaveLength(1);
+    expect(wrapper.find(Route).prop('component')).toEqual(Home);
   });
 });
