@@ -16,25 +16,11 @@
 
 import { shallow } from 'enzyme';
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import App from './App';
 import { Home } from './Home';
-import { NavBar } from './NavBar';
 
-describe('App', () => {
-  it('renders a router component', () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.find(Router)).toHaveLength(1);
-  });
-
-  it('renders a navigation menu', () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.find(NavBar)).toHaveLength(1);
-    expect(wrapper.find(NavBar).prop('assets')).toEqual(['asset1', 'asset2']);
-  });
-
-  it('renders a home component', () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.find(Home)).toHaveLength(1);
+describe('Home', () => {
+  it('displays a bunch of text', () => {
+    const wrapper = shallow(<Home />);
+    expect(wrapper.find('p').length).toBeGreaterThan(1);
   });
 });

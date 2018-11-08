@@ -14,25 +14,16 @@
   limitations under the License.
 */
 
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Home } from './Home';
-import { NavBar } from './NavBar';
+import React, { SFC } from 'react';
 
-class App extends Component {
-  public render() {
-    const assets = ['asset1', 'asset2'];
-    return (
-      <Router>
-        <div>
-          <NavBar assets={assets} />
-          <Route path='/' exact component={Home}>
-            <Home />
-          </Route>
-        </div>
-      </Router>
-    );
-  }
-}
-
-export default App;
+export const Home: SFC = () => (
+  <div>
+    <h1>Asset Tracker</h1>
+    <p>Welcome to the Asset Tracker Demo App.</p>
+    <p>
+      Assets that you have already created can be viewed by clicking on their
+      name on the left menu. See the README for details about the store and the
+      scenario that you can try.
+    </p>
+  </div>
+);
