@@ -14,19 +14,26 @@
   limitations under the License.
 */
 
-import React, { Component } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { NavBar } from './NavBar';
+import React, { SFC } from 'react';
+import { Link } from 'react-router-dom';
 
-class App extends Component {
-  public render() {
-    const assets = ['asset1', 'asset2'];
-    return (
-      <Router>
-        <NavBar assets={assets} />
-      </Router>
-    );
-  }
+export interface NavBarProps {
+  assets: string[];
 }
 
-export default App;
+export const NavBar: SFC<NavBarProps> = ({ assets }) => (
+  <div>
+    <nav>
+      <ul>
+        <li key='home'>
+          <Link to='/'>Home</Link>
+        </li>
+        {assets.map((asset: string) => (
+          <li key={asset}>
+            <Link to={`/${asset}`}>{asset}</Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+);

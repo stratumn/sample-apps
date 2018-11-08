@@ -14,19 +14,21 @@
   limitations under the License.
 */
 
-import React, { Component } from 'react';
+import { shallow } from 'enzyme';
+import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+import App from './App';
 import { NavBar } from './NavBar';
 
-class App extends Component {
-  public render() {
-    const assets = ['asset1', 'asset2'];
-    return (
-      <Router>
-        <NavBar assets={assets} />
-      </Router>
-    );
-  }
-}
+describe('App', () => {
+  it('renders a router component', () => {
+    const wrapper = shallow(<App />);
+    expect(wrapper.find(Router)).toHaveLength(1);
+  });
 
-export default App;
+  it('renders a navigation menu', () => {
+    const wrapper = shallow(<App />);
+    expect(wrapper.find(NavBar)).toHaveLength(1);
+    expect(wrapper.find(NavBar).prop('assets')).toEqual(['asset1', 'asset2']);
+  });
+});
