@@ -14,13 +14,54 @@
   limitations under the License.
 */
 
-import { shallow } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import React from 'react';
+import ReactModal from 'react-modal';
 import { Home } from './Home';
 
 describe('Home', () => {
   it('displays a bunch of text', () => {
     const wrapper = shallow(<Home />);
     expect(wrapper.find('p').length).toBeGreaterThan(1);
+  });
+
+  it('displays a button to create asset', () => {
+    const wrapper = shallow(<Home />);
+    expect(wrapper.find('button#show-asset-create').length).toEqual(1);
+  });
+
+  it('lets users create new assets', () => {
+    const mountRoot = document.createElement('div');
+    mountRoot.setAttribute('id', 'root');
+    document.body.appendChild(mountRoot);
+
+    ReactModal.setAppElement('#root');
+    const wrapper = mount(<Home />, { attachTo: mountRoot });
+
+    // Clicking the button should show the modal.
+    expect(wrapper.state('showModal')).toBeFalsy();
+    wrapper.find('button').simulate('click');
+    expect(wrapper.state('showModal')).toBeTruthy();
+
+    // Set asset name and owner.
+    wrapper
+      .find('#asset-name')
+      .simulate('change', { target: { value: 'My Asset' } });
+    wrapper
+      .find('#asset-owner')
+      .simulate('change', { target: { value: 'carol' } });
+
+    expect(wrapper.state('assetName')).toEqual('My Asset');
+    expect(wrapper.state('assetOwner')).toEqual('carol');
+
+    // Create asset should reset the state.
+    wrapper.find('form').simulate('submit');
+
+    expect(wrapper.state('showModal')).toBeFalsy();
+    expect(wrapper.state('assetName')).toEqual('');
+    expect(wrapper.state('assetOwner')).toEqual('alice');
+
+    wrapper.detach();
+    document.body.removeChild(mountRoot);
   });
 });
