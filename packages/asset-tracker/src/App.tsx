@@ -16,47 +16,88 @@
 
 import { IStoreClient } from '@stratumn/store-client';
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import {
+  matchPath,
+  Route,
+  RouteComponentProps,
+  Switch,
+  withRouter
+} from 'react-router-dom';
 import { Home } from './Home';
 import { NavBar } from './NavBar';
 
-export interface Props {
+interface RouterProps {
+  asset: string;
+}
+
+export interface Props extends RouteComponentProps<RouterProps> {
   store: IStoreClient;
 }
 
-class App extends Component<Props, {}> {
+export interface State {
+  assets: string[];
+}
+
+class App extends Component<Props, State> {
+  public state = { assets: [] };
+
+  public async componentDidMount() {
+    const assets = await this.props.store.getMapIDs('asset-tracker');
+    this.setState({ assets });
+  }
+
+  public async componentWillReceiveProps(nextProps: Props) {
+    const match = matchPath<RouterProps>(nextProps.location.pathname, {
+      path: '/:asset'
+    });
+    if (!match) {
+      return;
+    }
+    if (this.state.assets.find((a: string) => a === match.params.asset)) {
+      return;
+    }
+
+    // If a new asset has been added, refresh the assets list.
+    const assets = await this.props.store.getMapIDs('asset-tracker');
+    this.setState({ assets });
+  }
+
   public render() {
-    const assets = ['asset1', 'asset2'];
     return (
-      <Router>
+      <div
+        style={{
+          alignItems: 'stretch',
+          display: 'flex',
+          height: '100vh',
+          textAlign: 'center'
+        }}
+      >
         <div
           style={{
-            alignItems: 'stretch',
-            display: 'flex',
-            height: '100vh',
-            textAlign: 'center'
+            backgroundColor: '#3B058D',
+            color: 'white',
+            flexBasis: '20%'
           }}
         >
-          <div
-            style={{
-              backgroundColor: '#3B058D',
-              color: 'white',
-              flexBasis: '20%'
-            }}
-          >
-            <NavBar assets={assets} />
-          </div>
-          <div style={{ color: '#5246f7', flexBasis: '80%' }}>
-            <Route
-              path='/'
-              exact
-              component={() => <Home store={this.props.store} />}
-            />
-          </div>
+          <NavBar assets={this.state.assets} />
         </div>
-      </Router>
+        <div style={{ color: '#5246f7', flexBasis: '80%' }}>
+          <Switch>
+            <Route
+              exact
+              path='/'
+              render={() => <Home store={this.props.store} />}
+            />
+            <Route
+              exact
+              path='/:asset'
+              render={() => <div>{this.props.match.params.asset}</div>}
+            />
+          </Switch>
+        </div>
+      </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
