@@ -14,12 +14,17 @@
   limitations under the License.
 */
 
+import { IStoreClient } from '@stratumn/store-client';
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Home } from './Home';
 import { NavBar } from './NavBar';
 
-class App extends Component {
+export interface Props {
+  store: IStoreClient;
+}
+
+class App extends Component<Props, {}> {
   public render() {
     const assets = ['asset1', 'asset2'];
     return (
@@ -42,7 +47,11 @@ class App extends Component {
             <NavBar assets={assets} />
           </div>
           <div style={{ color: '#5246f7', flexBasis: '80%' }}>
-            <Route path='/' exact component={Home} />
+            <Route
+              path='/'
+              exact
+              component={() => <Home store={this.props.store} />}
+            />
           </div>
         </div>
       </Router>

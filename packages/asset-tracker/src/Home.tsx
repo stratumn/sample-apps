@@ -14,23 +14,36 @@
   limitations under the License.
 */
 
+import { LinkBuilder } from '@stratumn/js-chainscript';
+import { IStoreClient } from '@stratumn/store-client';
 import React, { ChangeEvent, Component } from 'react';
 import ReactModal from 'react-modal';
+import { Redirect } from 'react-router';
 
-export interface State {
-  showModal: boolean;
-  assetName: string;
-  assetOwner: string;
+export interface Props {
+  store: IStoreClient;
 }
 
-export class Home extends Component<{}, State> {
+export interface State {
+  assetCreated: boolean;
+  assetName: string;
+  assetOwner: string;
+  showModal: boolean;
+}
+
+export class Home extends Component<Props, State> {
   public state = {
+    assetCreated: false,
     assetName: '',
     assetOwner: 'alice',
     showModal: false
   };
 
   public render() {
+    if (this.state.assetCreated) {
+      return <Redirect to={`/${this.state.assetName}`} />;
+    }
+
     return (
       <div style={{ textAlign: 'center' }}>
         <h1>Asset Tracker</h1>
@@ -51,39 +64,39 @@ export class Home extends Component<{}, State> {
         >
           <div style={{ textAlign: 'center' }}>
             <h1>Create New Asset</h1>
-            <form onSubmit={this.handleCreateAsset}>
-              <div>
-                <label>
-                  Name:
-                  <input
-                    id='asset-name'
-                    type='text'
-                    value={this.state.assetName}
-                    onChange={this.handleAssetNameChange}
-                    style={{ margin: '10px' }}
-                  />
-                </label>
-              </div>
-              <div>
-                <label>
-                  Owner:
-                  <select
-                    id='asset-owner'
-                    name='owner'
-                    defaultValue={this.state.assetOwner}
-                    onChange={this.handleAssetOwnerChange}
-                    style={{ margin: '10px' }}
-                  >
-                    <option value='alice'>alice</option>
-                    <option value='bob'>bob</option>
-                    <option value='carol'>carol</option>
-                  </select>
-                </label>
-              </div>
-              <div>
-                <input id='create-asset' type='submit' value='Create' />
-              </div>
-            </form>
+            <div>
+              <label>
+                Name:
+                <input
+                  id='asset-name'
+                  type='text'
+                  value={this.state.assetName}
+                  onChange={this.handleAssetNameChange}
+                  style={{ margin: '10px' }}
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                Owner:
+                <select
+                  id='asset-owner'
+                  name='owner'
+                  defaultValue={this.state.assetOwner}
+                  onChange={this.handleAssetOwnerChange}
+                  style={{ margin: '10px' }}
+                >
+                  <option value='alice'>alice</option>
+                  <option value='bob'>bob</option>
+                  <option value='carol'>carol</option>
+                </select>
+              </label>
+            </div>
+            <div>
+              <button id='create-asset' onClick={this.handleCreateAsset}>
+                Create
+              </button>
+            </div>
           </div>
         </ReactModal>
       </div>
@@ -110,7 +123,13 @@ export class Home extends Component<{}, State> {
     this.setState({ assetOwner: event.target.value });
   }
 
-  private handleCreateAsset = () => {
-    this.handleCloseModal();
+  private handleCreateAsset = async () => {
+    const asset = new LinkBuilder('asset-tracker', this.state.assetName)
+      .withDegree(1)
+      .withData({ owner: this.state.assetOwner })
+      .build();
+
+    await this.props.store.createLink(asset);
+    this.setState({ assetCreated: true });
   }
 }

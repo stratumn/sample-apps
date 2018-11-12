@@ -14,28 +14,37 @@
   limitations under the License.
 */
 
-import { shallow } from 'enzyme';
+import { IStoreClient } from '@stratumn/store-client';
+import { mount, shallow } from 'enzyme';
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, MemoryRouter, Route } from 'react-router-dom';
 import App from './App';
 import { Home } from './Home';
 import { NavBar } from './NavBar';
 
 describe('App', () => {
+  const storeMock = jest.fn<IStoreClient>(() => ({
+    getMapIDs: jest.fn()
+  }));
+
   it('renders a router component', () => {
-    const wrapper = shallow(<App />);
+    const wrapper = shallow(<App store={new storeMock()} />);
     expect(wrapper.find(Router)).toHaveLength(1);
   });
 
   it('renders a navigation menu', () => {
-    const wrapper = shallow(<App />);
+    const wrapper = shallow(<App store={new storeMock()} />);
     expect(wrapper.find(NavBar)).toHaveLength(1);
     expect(wrapper.find(NavBar).prop('assets')).toEqual(['asset1', 'asset2']);
   });
 
   it('renders a home component on root url', () => {
-    const wrapper = shallow(<App />);
+    const wrapper = mount(
+      <MemoryRouter>
+        <App store={new storeMock()} />
+      </MemoryRouter>
+    );
     expect(wrapper.find(Route)).toHaveLength(1);
-    expect(wrapper.find(Route).prop('component')).toEqual(Home);
+    expect(wrapper.find(Home)).toHaveLength(1);
   });
 });

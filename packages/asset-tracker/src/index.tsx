@@ -14,13 +14,16 @@
   limitations under the License.
 */
 
+import { StoreHttpClient } from '@stratumn/store-client';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactModal from 'react-modal';
 import App from './App';
 import './index.css';
 
+const storeClient = new StoreHttpClient('http://localhost:5000');
+
 // Bind all modals to the root element.
 ReactModal.setAppElement('#root');
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App store={storeClient} />, document.getElementById('root'));
