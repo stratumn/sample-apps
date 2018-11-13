@@ -21,6 +21,7 @@ import { MemoryRouter, Switch } from 'react-router-dom';
 import App from './App';
 import { Home } from './Home';
 import { NavBar } from './NavBar';
+import { Tracker } from './Tracker';
 
 describe('App', () => {
   const storeMock = jest.fn<IStoreClient>(() => ({
@@ -65,5 +66,16 @@ describe('App', () => {
     );
     expect(wrapper.find(Switch)).toHaveLength(1);
     expect(wrapper.find(Home)).toHaveLength(1);
+  });
+
+  it('renders the tracker component', () => {
+    const wrapper = mount(
+      <MemoryRouter initialEntries={['/asset1']}>
+        <App store={new storeMock()} />
+      </MemoryRouter>
+    );
+    expect(wrapper.find(Switch)).toHaveLength(1);
+    expect(wrapper.find(Tracker)).toHaveLength(1);
+    expect(wrapper.find(Tracker).prop('asset')).toEqual('asset1');
   });
 });

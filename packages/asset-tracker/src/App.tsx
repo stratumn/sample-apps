@@ -17,6 +17,7 @@
 import { IStoreClient } from '@stratumn/store-client';
 import React, { Component } from 'react';
 import {
+  match,
   matchPath,
   Route,
   RouteComponentProps,
@@ -25,6 +26,7 @@ import {
 } from 'react-router-dom';
 import { Home } from './Home';
 import { NavBar } from './NavBar';
+import { Tracker } from './Tracker';
 
 interface RouterProps {
   asset: string;
@@ -46,14 +48,14 @@ class App extends Component<Props, State> {
     this.setState({ assets });
   }
 
-  public async componentWillReceiveProps(nextProps: Props) {
-    const match = matchPath<RouterProps>(nextProps.location.pathname, {
+  public async componentDidUpdate() {
+    const routerProps = matchPath<RouterProps>(this.props.location.pathname, {
       path: '/:asset'
     });
-    if (!match) {
+    if (!routerProps) {
       return;
     }
-    if (this.state.assets.find((a: string) => a === match.params.asset)) {
+    if (this.state.assets.find((a: string) => a === routerProps.params.asset)) {
       return;
     }
 
@@ -63,6 +65,10 @@ class App extends Component<Props, State> {
   }
 
   public render() {
+    const routerProps = matchPath<RouterProps>(this.props.location.pathname, {
+      path: '/:asset'
+    });
+
     return (
       <div
         style={{
@@ -91,7 +97,12 @@ class App extends Component<Props, State> {
             <Route
               exact
               path='/:asset'
-              render={() => <div>{this.props.match.params.asset}</div>}
+              render={() => (
+                <Tracker
+                  store={this.props.store}
+                  asset={(routerProps as match<RouterProps>).params.asset}
+                />
+              )}
             />
           </Switch>
         </div>
