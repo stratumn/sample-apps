@@ -17,11 +17,11 @@
 import React, { SFC } from 'react';
 import { Link } from 'react-router-dom';
 
-export interface NavBarProps {
+export interface Props {
   assets: string[];
 }
 
-export const NavBar: SFC<NavBarProps> = ({ assets }) => (
+export const NavBar: SFC<Props> = ({ assets }) => (
   <div style={{ height: '100vh' }}>
     <nav style={{ margin: '5px' }}>
       <ul
