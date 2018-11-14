@@ -14,10 +14,12 @@
   limitations under the License.
 */
 
+import { Link } from '@stratumn/js-chainscript';
 import { MapExplorer } from '@stratumn/react-map-explorer';
 import { IStoreClient } from '@stratumn/store-client';
-import { shallow } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import React from 'react';
+import ReactModal from 'react-modal';
 import { Tracker } from './Tracker';
 
 describe('Tracker', () => {
@@ -29,5 +31,61 @@ describe('Tracker', () => {
     expect(wrapper.find(MapExplorer)).toHaveLength(1);
     expect(wrapper.find(MapExplorer).prop('mapId')).toEqual('test-asset');
     expect(wrapper.find(MapExplorer).prop('process')).toEqual('asset-tracker');
+  });
+
+  it('lets users transfer asset ownership', async () => {
+    const mountRoot = document.createElement('div');
+    mountRoot.setAttribute('id', 'root');
+    document.body.appendChild(mountRoot);
+
+    ReactModal.setAppElement('#root');
+
+    const createLinkMock = jest.fn();
+    const store = jest.fn<IStoreClient>(() => ({
+      createLink: createLinkMock
+    }))();
+
+    const wrapper = mount(<Tracker store={store} asset={'test-asset'} />, {
+      attachTo: mountRoot
+    });
+
+    await new Promise(resolve => setImmediate(resolve));
+    wrapper.update();
+
+    expect(wrapper.state('showModal')).toBeFalsy();
+
+    // Show transfer ownership modal.
+    wrapper.setState({
+      owner: 'alice',
+      segmentHash: Uint8Array.from([42]),
+      showModal: true
+    });
+    wrapper.update();
+
+    expect(wrapper.find('select#asset-owner')).toHaveLength(1);
+
+    // Transfer ownership to bob.
+    createLinkMock.mockImplementationOnce((l: Link) => {
+      expect(l.prevLinkHash()).toEqual(Uint8Array.from([42]));
+      expect(l.data()).toEqual({ owner: 'bob' });
+      expect(l.signatures()).toHaveLength(1);
+
+      return l.segmentify();
+    });
+
+    wrapper
+      .find('select#asset-owner')
+      .simulate('change', { target: { value: 'bob' } });
+    expect(wrapper.state('nextOwner')).toEqual('bob');
+    wrapper.find('button#transfer').simulate('click');
+
+    await new Promise(resolve => setImmediate(resolve));
+    wrapper.update();
+
+    expect(createLinkMock).toHaveBeenCalled();
+    expect(wrapper.state('showModal')).toBeFalsy();
+
+    wrapper.detach();
+    document.body.removeChild(mountRoot);
   });
 });

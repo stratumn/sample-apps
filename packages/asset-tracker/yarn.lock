@@ -852,7 +852,7 @@
   dependencies:
     bignumber.js "^4.1.0"
 
-"@stratumn/js-chainscript@^1.0.2":
+"@stratumn/js-chainscript@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@stratumn/js-chainscript/-/js-chainscript-1.0.3.tgz#74bbee2fd6b3bda68ea2a02afd4cba5036097b85"
   integrity sha512-+HA3CHUCzNC843Gg0y8oO6YcDe2QwfBaztB9nw5ToCPjw88NhXdws/t56Y+GX5Ue2073CjfkgikShvMEKQWHKg==
@@ -876,23 +876,23 @@
   dependencies:
     node-forge "^0.7.5"
 
-"@stratumn/react-map-explorer@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@stratumn/react-map-explorer/-/react-map-explorer-0.1.1.tgz#53010ae21ff47b6d9748c4ac167af6e3417c467d"
-  integrity sha512-QukiBnBwJykqyU2DpGFohwn3IfEDaRzTyOsJBMj12xaBbBC2sLlRRgYmLVdqMuPNzChbFtgGOAasg+JKPBifFA==
+"@stratumn/react-map-explorer@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@stratumn/react-map-explorer/-/react-map-explorer-0.1.2.tgz#8d7acdd029f118d3d6bb6cf68aee23b7539de53d"
+  integrity sha512-fiu+sORI5MFm8dIFTo+PJsMYaXgNK0cu7twDxXcDBqNY8pN2qVtroaQ4Csv8ScIoR5X3XUsrUsTgvN4mCTdezw==
   dependencies:
-    "@stratumn/js-chainscript" "^1.0.2"
-    "@stratumn/store-client" "^0.1.0"
+    "@stratumn/js-chainscript" "^1.0.3"
+    "@stratumn/store-client" "^0.1.2"
     buffer "^5.2.1"
     react "^16.6.0"
     react-dom "^16.6.0"
 
-"@stratumn/store-client@^0.1.0", "@stratumn/store-client@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@stratumn/store-client/-/store-client-0.1.1.tgz#33952099925b2d5cd9b3b29ce72ea31fb977d596"
-  integrity sha512-6zGjF65sneoeXg5VVvHdGdQvvE4uAsm9l1BODYeZ/cibHthLeYVVbLe5+JkO0TefvJE71/M3jxaxljokoqi6/w==
+"@stratumn/store-client@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@stratumn/store-client/-/store-client-0.1.2.tgz#a4df072a35275a5789a4048c20bffed006755bee"
+  integrity sha512-5pOoM/USd5qP9YhmXznM5hW2jFGVwqLTgh803oeukRizkTjSYYcD/Ct5WWwK9DK3oerMtpNAGuiqYFsjxuC3kg==
   dependencies:
-    "@stratumn/js-chainscript" "^1.0.2"
+    "@stratumn/js-chainscript" "^1.0.3"
     axios "^0.18.0"
     isomorphic-ws "^4.0.1"
 

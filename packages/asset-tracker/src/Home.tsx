@@ -19,6 +19,7 @@ import { IStoreClient } from '@stratumn/store-client';
 import React, { ChangeEvent, Component } from 'react';
 import ReactModal from 'react-modal';
 import { Redirect } from 'react-router';
+import { User, users } from './user';
 
 export interface Props {
   store: IStoreClient;
@@ -86,9 +87,11 @@ export class Home extends Component<Props, State> {
                   onChange={this.handleAssetOwnerChange}
                   style={{ margin: '10px' }}
                 >
-                  <option value='alice'>alice</option>
-                  <option value='bob'>bob</option>
-                  <option value='carol'>carol</option>
+                  {users.map((u: User) => (
+                    <option key={u.name} value={u.name}>
+                      {u.name}
+                    </option>
+                  ))}
                 </select>
               </label>
             </div>
