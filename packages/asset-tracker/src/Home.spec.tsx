@@ -82,6 +82,7 @@ describe('Home', () => {
       expect(l.outDegree()).toEqual(1);
       expect(l.step()).toEqual('create');
       expect(l.tags()).toEqual(['carol']);
+      expect(l.signatures()).toHaveLength(1);
     });
 
     wrapper.find('button#create-asset').simulate('click');

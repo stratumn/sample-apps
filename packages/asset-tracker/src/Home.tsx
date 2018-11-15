@@ -19,7 +19,7 @@ import { IStoreClient } from '@stratumn/store-client';
 import React, { ChangeEvent, Component } from 'react';
 import ReactModal from 'react-modal';
 import { Redirect } from 'react-router';
-import { User, users } from './user';
+import { getUser, User, users } from './user';
 
 export interface Props {
   store: IStoreClient;
@@ -133,6 +133,8 @@ export class Home extends Component<Props, State> {
       .withTags([this.state.assetOwner])
       .withData({ owner: this.state.assetOwner })
       .build();
+
+    asset.sign(getUser(this.state.assetOwner).privateKey.export(), '');
 
     await this.props.store.createLink(asset);
     this.setState({ assetCreated: true });

@@ -25,6 +25,8 @@
     "enzyme-adapter-react-16": "^1.7.0"
   },
   "scripts": {
+    "backend:down": "docker-compose down",
+    "backend:up": "docker-compose up",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "start": "react-scripts start",

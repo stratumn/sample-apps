@@ -1,0 +1,50 @@
+{
+  "asset-tracker": {
+    "pki": {
+      "alice": {
+        "keys": [
+          "-----BEGIN ED25519 PUBLIC KEY-----\nMCwwBwYDK2VwBQADIQBHceWVsJFGlQPtcqVfWeSBYWrmzbuerntZmCyImLB2wA==\n-----END ED25519 PUBLIC KEY-----\n"
+        ]
+      },
+      "bob": {
+        "keys": [
+          "-----BEGIN ED25519 PUBLIC KEY-----\nMCwwBwYDK2VwBQADIQB4VEmMHTKjGXmNbrESiLp6XydmypyzXF/HO4jT/QT9tg==\n-----END ED25519 PUBLIC KEY-----\n"
+        ]
+      },
+      "carol": {
+        "keys": [
+          "-----BEGIN ED25519 PUBLIC KEY-----\nMCwwBwYDK2VwBQADIQBRiQf5dDgEhKaiU/9cq88snWlY0AafXPreJCUWei1ezg==\n-----END ED25519 PUBLIC KEY-----\n"
+        ]
+      }
+    },
+    "steps": {
+      "create": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string"
+            }
+          },
+          "required": ["owner"]
+        },
+        "transitions": [""]
+      },
+      "transfer": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string"
+            }
+          },
+          "required": ["owner"]
+        },
+        "transitions": ["create", "transfer"]
+      }
+    },
+    "script": {
+      "hash": "3a93d5f691e05f21e51a8b7e690a236e6edc872f3a581151a9c7b9696e25a0c4"
+    }
+  }
+}

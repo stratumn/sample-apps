@@ -1,0 +1,42 @@
+version: "3"
+services:
+  # The basic example uses an in-memory store.
+  # This means that if you stop the backend and restart it, you will lose all
+  # previous data (links and evidences).
+  store:
+    image: stratumn/dummystore:latest
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./validation:/data/validation
+    command:
+      [
+        dummystore,
+        "-monitoring.active=false",
+        "-enable_cors",
+        "-rules_path=/data/validation/rules.json",
+        "-plugins_path=/data/validation/",
+      ]
+  # A production scenario requires a real database like PostgreSQL.
+  # Here is a basic setup (in a production environment you would also need to
+  # configure a secure access to the DB):
+  # store:
+  #   image: stratumn/postgresstore:latest
+  #   ports:
+  #     - "5000:5000"
+  #   volumes:
+  #     - ./validation:/data/validation
+  #   command:
+  #     [
+  #       postgresstore,
+  #       "-monitoring.active=false",
+  #       "-enable_cors",
+  #       "-rules_path=/data/validation/rules.json",
+  #       "-plugins_path=/data/validation/",
+  #     ]
+  #   depends_on:
+  #     - postgres
+  # postgres:
+  #   image: postgres:11.1
+  #   volumes:
+  #     - ./data:/var/lib/postgresql/data
