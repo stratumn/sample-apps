@@ -79,6 +79,9 @@ describe('Home', () => {
     store.createLink = jest.fn((l: Link) => {
       expect(l.mapId()).toEqual('my-asset');
       expect(l.process().name).toEqual('asset-tracker');
+      expect(l.outDegree()).toEqual(1);
+      expect(l.step()).toEqual('create');
+      expect(l.tags()).toEqual(['carol']);
     });
 
     wrapper.find('button#create-asset').simulate('click');

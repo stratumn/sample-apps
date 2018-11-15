@@ -129,6 +129,8 @@ export class Home extends Component<Props, State> {
   private handleCreateAsset = async () => {
     const asset = new LinkBuilder('asset-tracker', this.state.assetName)
       .withDegree(1)
+      .withStep('create')
+      .withTags([this.state.assetOwner])
       .withData({ owner: this.state.assetOwner })
       .build();
 

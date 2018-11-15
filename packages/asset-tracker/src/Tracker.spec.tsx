@@ -68,6 +68,9 @@ describe('Tracker', () => {
     createLinkMock.mockImplementationOnce((l: Link) => {
       expect(l.prevLinkHash()).toEqual(Uint8Array.from([42]));
       expect(l.data()).toEqual({ owner: 'bob' });
+      expect(l.outDegree()).toEqual(1);
+      expect(l.step()).toEqual('transfer');
+      expect(l.tags()).toEqual(['alice', 'bob']);
       expect(l.signatures()).toHaveLength(1);
 
       return l.segmentify();

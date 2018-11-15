@@ -94,6 +94,9 @@ export class Tracker extends Component<Props, State> {
   private transferOwnership = async () => {
     const transferLink = new LinkBuilder('asset-tracker', this.props.asset)
       .withParent(this.state.segmentHash)
+      .withStep('transfer')
+      .withDegree(1)
+      .withTags([this.state.owner, this.state.nextOwner])
       .withData({ owner: this.state.nextOwner })
       .build();
 
