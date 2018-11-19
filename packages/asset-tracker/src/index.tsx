@@ -14,7 +14,11 @@
   limitations under the License.
 */
 
-import { StoreHttpClient } from '@stratumn/store-client';
+import {
+  FossilizedEvent,
+  FossilizerHttpClient
+} from '@stratumn/fossilizer-client';
+import { StoreEvent, StoreHttpClient } from '@stratumn/store-client';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactModal from 'react-modal';
@@ -22,14 +26,29 @@ import { HashRouter as Router } from 'react-router-dom';
 import App from './App';
 import './index.css';
 
-const storeClient = new StoreHttpClient('http://localhost:5000');
+const storeClient = new StoreHttpClient(
+  'http://localhost:5000',
+  (e: StoreEvent) => {
+    // tslint:disable-next-line:no-console
+    console.log(`New store event: ${JSON.stringify(e)}`);
+  }
+);
+const fossilizerClient = new FossilizerHttpClient(
+  'http://localhost:5001',
+  async (e: FossilizedEvent) => {
+    // The fossilizer produces some evidence that a given link exists at some
+    // point in time. We store that evidence in our Chainscript store.
+    const linkHash = e.data;
+    await storeClient.addEvidence(linkHash, e.evidence);
+  }
+);
 
 // Bind all modals to the root element.
 ReactModal.setAppElement('#root');
 
 ReactDOM.render(
   <Router>
-    <App store={storeClient} />
+    <App store={storeClient} fossilizer={fossilizerClient} />
   </Router>,
   document.getElementById('root')
 );

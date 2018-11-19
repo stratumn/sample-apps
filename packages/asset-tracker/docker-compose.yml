@@ -17,6 +17,12 @@ services:
         "-rules_path=/data/validation/rules.json",
         "-plugins_path=/data/validation/",
       ]
+  # The basic example uses an in-memory fossilizer.
+  fossilizer:
+    image: stratumn/dummyfossilizer:latest
+    ports:
+      - "5001:6000"
+    command: ["dummyfossilizer", "-monitoring.active=false", "-enable_cors"]
   # A production scenario requires a real database like PostgreSQL.
   # Here is a basic setup (in a production environment you would also need to
   # configure a secure access to the DB):

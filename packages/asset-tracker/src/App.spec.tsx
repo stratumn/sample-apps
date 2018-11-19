@@ -14,6 +14,7 @@
   limitations under the License.
 */
 
+import { IFossilizerClient } from '@stratumn/fossilizer-client';
 import { IStoreClient } from '@stratumn/store-client';
 import { mount } from 'enzyme';
 import React from 'react';
@@ -27,11 +28,12 @@ describe('App', () => {
   const storeMock = jest.fn<IStoreClient>(() => ({
     getMapIDs: () => ['asset1', 'asset2']
   }));
+  const fossilizerMock = jest.fn<IFossilizerClient>(() => ({}));
 
   it('renders a route switch component', () => {
     const wrapper = mount(
       <MemoryRouter>
-        <App store={new storeMock()} />
+        <App store={new storeMock()} fossilizer={new fossilizerMock()} />
       </MemoryRouter>
     );
     expect(wrapper.find(Switch)).toHaveLength(1);
@@ -46,7 +48,7 @@ describe('App', () => {
 
     const wrapper = mount(
       <MemoryRouter>
-        <App store={store} />
+        <App store={store} fossilizer={new fossilizerMock()} />
       </MemoryRouter>
     );
     await new Promise(resolve => setImmediate(resolve));
@@ -61,7 +63,7 @@ describe('App', () => {
   it('renders a home component on root url', () => {
     const wrapper = mount(
       <MemoryRouter>
-        <App store={new storeMock()} />
+        <App store={new storeMock()} fossilizer={new fossilizerMock()} />
       </MemoryRouter>
     );
     expect(wrapper.find(Switch)).toHaveLength(1);
@@ -71,7 +73,7 @@ describe('App', () => {
   it('renders the tracker component', () => {
     const wrapper = mount(
       <MemoryRouter initialEntries={['/asset1']}>
-        <App store={new storeMock()} />
+        <App store={new storeMock()} fossilizer={new fossilizerMock()} />
       </MemoryRouter>
     );
     expect(wrapper.find(Switch)).toHaveLength(1);
