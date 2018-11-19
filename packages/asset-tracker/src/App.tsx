@@ -14,6 +14,7 @@
   limitations under the License.
 */
 
+import { IFossilizerClient } from '@stratumn/fossilizer-client';
 import { IStoreClient } from '@stratumn/store-client';
 import React, { Component } from 'react';
 import {
@@ -34,6 +35,7 @@ interface RouterProps {
 
 export interface Props extends RouteComponentProps<RouterProps> {
   store: IStoreClient;
+  fossilizer: IFossilizerClient;
 }
 
 export interface State {
@@ -92,7 +94,12 @@ class App extends Component<Props, State> {
             <Route
               exact
               path='/'
-              render={() => <Home store={this.props.store} />}
+              render={() => (
+                <Home
+                  store={this.props.store}
+                  fossilizer={this.props.fossilizer}
+                />
+              )}
             />
             <Route
               exact

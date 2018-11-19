@@ -14,8 +14,10 @@
   limitations under the License.
 */
 
+import { IFossilizerClient } from '@stratumn/fossilizer-client';
 import { Link } from '@stratumn/js-chainscript';
 import { IStoreClient } from '@stratumn/store-client';
+import { Buffer } from 'buffer';
 import { mount, shallow } from 'enzyme';
 import React from 'react';
 import ReactModal from 'react-modal';
@@ -26,19 +28,27 @@ describe('Home', () => {
   const storeMock = jest.fn<IStoreClient>(() => ({
     createLink: jest.fn()
   }));
+  const fossilizerMock = jest.fn<IFossilizerClient>(() => ({
+    fossilize: jest.fn()
+  }));
 
   it('displays a bunch of text', () => {
-    const wrapper = shallow(<Home store={new storeMock()} />);
+    const wrapper = shallow(
+      <Home store={new storeMock()} fossilizer={new fossilizerMock()} />
+    );
     expect(wrapper.find('p').length).toBeGreaterThan(1);
   });
 
   it('displays a button to create asset', () => {
-    const wrapper = shallow(<Home store={new storeMock()} />);
+    const wrapper = shallow(
+      <Home store={new storeMock()} fossilizer={new fossilizerMock()} />
+    );
     expect(wrapper.find('button#show-asset-create').length).toEqual(1);
   });
 
   it('lets users create new assets', async () => {
     const store = new storeMock();
+    const fossilizer = new fossilizerMock();
 
     const mountRoot = document.createElement('div');
     mountRoot.setAttribute('id', 'root');
@@ -48,7 +58,11 @@ describe('Home', () => {
     const wrapper = mount(
       <MemoryRouter>
         <div>
-          <Route exact path='/' component={() => <Home store={store} />} />
+          <Route
+            exact
+            path='/'
+            component={() => <Home store={store} fossilizer={fossilizer} />}
+          />
           <Route
             path='/my-asset'
             component={() => <div id='asset-created' />}
@@ -76,6 +90,8 @@ describe('Home', () => {
     expect(home.state('assetName')).toEqual('my-asset');
     expect(home.state('assetOwner')).toEqual('carol');
 
+    let linkHash = '';
+
     store.createLink = jest.fn((l: Link) => {
       expect(l.mapId()).toEqual('my-asset');
       expect(l.process().name).toEqual('asset-tracker');
@@ -83,10 +99,21 @@ describe('Home', () => {
       expect(l.step()).toEqual('create');
       expect(l.tags()).toEqual(['carol']);
       expect(l.signatures()).toHaveLength(1);
+
+      const segment = l.segmentify();
+      linkHash = Buffer.from(segment.linkHash()).toString('hex');
+      return segment;
+    });
+
+    fossilizer.fossilize = jest.fn((lh: string, assetName: string) => {
+      expect(lh).toEqual(linkHash);
+      expect(assetName).toEqual('my-asset');
     });
 
     wrapper.find('button#create-asset').simulate('click');
     expect(store.createLink).toHaveBeenCalled();
+    await new Promise(resolve => setImmediate(resolve));
+    expect(fossilizer.fossilize).toHaveBeenCalled();
 
     // Flush all async handlers.
     await new Promise(resolve => setImmediate(resolve));

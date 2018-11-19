@@ -14,8 +14,10 @@
   limitations under the License.
 */
 
+import { IFossilizerClient } from '@stratumn/fossilizer-client';
 import { LinkBuilder } from '@stratumn/js-chainscript';
 import { IStoreClient } from '@stratumn/store-client';
+import { Buffer } from 'buffer';
 import React, { ChangeEvent, Component } from 'react';
 import ReactModal from 'react-modal';
 import { Redirect } from 'react-router';
@@ -23,6 +25,7 @@ import { getUser, User, users } from './user';
 
 export interface Props {
   store: IStoreClient;
+  fossilizer: IFossilizerClient;
 }
 
 export interface State {
@@ -136,7 +139,12 @@ export class Home extends Component<Props, State> {
 
     asset.sign(getUser(this.state.assetOwner).privateKey.export(), '');
 
-    await this.props.store.createLink(asset);
+    const segment = await this.props.store.createLink(asset);
+    await this.props.fossilizer.fossilize(
+      Buffer.from(segment.linkHash()).toString('hex'),
+      this.state.assetName
+    );
+
     this.setState({ assetCreated: true });
   }
 }

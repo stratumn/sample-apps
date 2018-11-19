@@ -1,5 +1,6 @@
 version: "3"
 services:
+  # ------------------------------------------------------------------------- #
   # The basic example uses an in-memory store.
   # This means that if you stop the backend and restart it, you will lose all
   # previous data (links and evidences).
@@ -17,6 +18,14 @@ services:
         "-rules_path=/data/validation/rules.json",
         "-plugins_path=/data/validation/",
       ]
+  # ------------------------------------------------------------------------- #
+  # The basic example uses an in-memory fossilizer.
+  fossilizer:
+    image: stratumn/dummyfossilizer:latest
+    ports:
+      - "5001:6000"
+    command: ["dummyfossilizer", "-monitoring.active=false", "-enable_cors"]
+  # ------------------------------------------------------------------------- #
   # A production scenario requires a real database like PostgreSQL.
   # Here is a basic setup (in a production environment you would also need to
   # configure a secure access to the DB):
@@ -40,3 +49,23 @@ services:
   #   image: postgres:11.1
   #   volumes:
   #     - ./data:/var/lib/postgresql/data
+  # ------------------------------------------------------------------------- #
+  # A production scenario requires a real fossilizer as well like posting on
+  # the Bitcoin blockchain.
+  # To minimize transaction costs, the BTC fossilizer collects data to
+  # fossilize in a merkle tree and only publishes a transaction to the Bitcoin
+  # blockchain once every 10 minutes.
+  # You can tweak this delay with the `interval` command-line parameter.
+  # Here is a setup that uses the Bitcoin testnet (make sure you have enough
+  # testnet coins in your wallet to send transactions):
+  # fossilizer:
+  #   image: stratumn/btcfossilizer:latest
+  #   ports:
+  #     - "5001:6000"
+  #   command:
+  #     [
+  #       "btcfossilizer",
+  #       "-monitoring.active=false",
+  #       "-enable_cors",
+  #       "-wif=put_your_wif_private_key_here",
+  #     ]
