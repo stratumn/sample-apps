@@ -852,16 +852,16 @@
   dependencies:
     bignumber.js "^4.1.0"
 
-"@stratumn/fossilizer-client@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@stratumn/fossilizer-client/-/fossilizer-client-0.1.2.tgz#8e694870384f90d7d97ae1bbab32eab0a083fbb8"
-  integrity sha512-VBXZ76LVvAjLBiZZJgcTnYRrJA6grI+UMna1mRuQ1iUzaECGVBwZhkwD9spUN2WgsnncqoSZo5UI1TzQPjBKng==
+"@stratumn/fossilizer-client@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@stratumn/fossilizer-client/-/fossilizer-client-0.1.3.tgz#5f16346d1a4060f1cf83a97296c02a2a582d96d6"
+  integrity sha512-Oov+qpvCnjLiSPQ09J0ZML53STrpcsW4xCrwNeojEBq0QfENeVN/Xe2SN4HPXG7wfHPzqGkObTE8xKDBjZShtg==
   dependencies:
     "@stratumn/js-chainscript" "^1.0.3"
     axios "^0.18.0"
     buffer "^5.2.1"
     isomorphic-ws "^4.0.1"
-    ws "^6.1.0"
+    ws "^6.1.2"
 
 "@stratumn/js-chainscript@^1.0.3":
   version "1.0.3"
@@ -887,25 +887,28 @@
   dependencies:
     node-forge "^0.7.5"
 
-"@stratumn/react-map-explorer@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@stratumn/react-map-explorer/-/react-map-explorer-0.1.2.tgz#8d7acdd029f118d3d6bb6cf68aee23b7539de53d"
-  integrity sha512-fiu+sORI5MFm8dIFTo+PJsMYaXgNK0cu7twDxXcDBqNY8pN2qVtroaQ4Csv8ScIoR5X3XUsrUsTgvN4mCTdezw==
+"@stratumn/react-map-explorer@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@stratumn/react-map-explorer/-/react-map-explorer-0.1.3.tgz#e556d28c4eca02bdebe3c8a221f6b2a368914b1d"
+  integrity sha512-aqmWH+L3+cyNvVQoA8JyTy8nqp6wugV4boGX8NWbRoseRjy2lZ6k4/f/9ot5pRZ6VWWnDgXQOwTjvaoYDNDCWg==
   dependencies:
     "@stratumn/js-chainscript" "^1.0.3"
-    "@stratumn/store-client" "^0.1.2"
+    "@stratumn/store-client" "^0.1.3"
     buffer "^5.2.1"
+    d3-hierarchy "^1.1.8"
+    d3-selection "^1.3.2"
     react "^16.6.0"
     react-dom "^16.6.0"
 
-"@stratumn/store-client@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@stratumn/store-client/-/store-client-0.1.2.tgz#a4df072a35275a5789a4048c20bffed006755bee"
-  integrity sha512-5pOoM/USd5qP9YhmXznM5hW2jFGVwqLTgh803oeukRizkTjSYYcD/Ct5WWwK9DK3oerMtpNAGuiqYFsjxuC3kg==
+"@stratumn/store-client@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@stratumn/store-client/-/store-client-0.1.3.tgz#021fe01b92147d72b72fc710e0a685219175c62a"
+  integrity sha512-0c9SDX3UySbNfQi//dkDK7DsBY0T9aOqvkihkcz8QSrz1xpLFHd/bVAkw4LRe07pzOdKj+dnh6MIPgqJXtcvUw==
   dependencies:
     "@stratumn/js-chainscript" "^1.0.3"
     axios "^0.18.0"
     isomorphic-ws "^4.0.1"
+    ws "^6.1.2"
 
 "@svgr/core@^2.4.1":
   version "2.4.1"
@@ -2919,6 +2922,16 @@ cyclist@~0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"
   integrity sha1-GzN5LhHpFKL9bW7WRHRkRE5fpkA=
+
+d3-hierarchy@^1.1.8:
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/d3-hierarchy/-/d3-hierarchy-1.1.8.tgz#7a6317bd3ed24e324641b6f1e76e978836b008cc"
+  integrity sha512-L+GHMSZNwTpiq4rt9GEsNcpLa4M96lXMR8M/nMG9p5hBE0jy6C+3hWtyZMenPQdwla249iJy7Nx0uKt3n+u9+w==
+
+d3-selection@^1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/d3-selection/-/d3-selection-1.3.2.tgz#6e70a9df60801c8af28ac24d10072d82cbfdf652"
+  integrity sha512-OoXdv1nZ7h2aKMVg3kaUFbLLK5jXUFAMLD/Tu5JA96mjf8f2a9ZUESGY+C36t8R1WFeWk/e55hy54Ml2I62CRQ==
 
 damerau-levenshtein@^1.0.4:
   version "1.0.4"
@@ -10375,6 +10388,13 @@ ws@^6.1.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/ws/-/ws-6.1.0.tgz#119a9dbf92c54e190ec18d10e871d55c95cf9373"
   integrity sha512-H3dGVdGvW2H8bnYpIDc3u3LH8Wue3Qh+Zto6aXXFzvESkTVT6rAfKR6tR/+coaUvxs8yHtmNV0uioBF62ZGSTg==
+  dependencies:
+    async-limiter "~1.0.0"
+
+ws@^6.1.2:
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-6.1.2.tgz#3cc7462e98792f0ac679424148903ded3b9c3ad8"
+  integrity sha512-rfUqzvz0WxmSXtJpPMX2EeASXabOrSMk1ruMOV3JBTBjo4ac2lDjGGsbQSyxj8Odhw5fBib8ZKEjDNvgouNKYw==
   dependencies:
     async-limiter "~1.0.0"
 
