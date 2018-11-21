@@ -32,7 +32,11 @@
     "eject": "react-scripts eject",
     "start": "react-scripts start",
     "test": "react-scripts test",
-    "test:coverage": "react-scripts test --coverage"
+    "test:coverage": "react-scripts test --coverage",
+    "validation:docker": "cd validation && docker build -t asset-tracker/validation .",
+    "validation:build": "docker run --rm -v $(pwd)/validation:/validation asset-tracker/validation go build -o transferPlugin.so -buildmode=plugin transferPlugin.go",
+    "validation:move": "mv validation/transferPlugin.so validation/$(sha256sum validation/transferPlugin.so | awk '{print $1}').so",
+    "validation:update": "yarn validation:docker && yarn validation:build && yarn validation:move"
   },
   "jest": {
     "coverageReporters": [
