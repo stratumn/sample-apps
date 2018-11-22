@@ -66,12 +66,10 @@ You can provide arbitrary validation logic via go scripts.
 Validating that a transfer contains the signature of the previous owner
 leverages this feature. The script is in `validation/transferPlugin.go`.
 
-It has been compiled with the following command executed in the `validation`
-folder:
+It has been compiled with the following command:
 
 ```bash
-go build -o transferPlugin.so -buildmode=plugin transferPlugin.go
-mv transferPlugin.so $(sha256sum transferPlugin.so | awk '{print $1}').so
+yarn validation:update
 ```
 
 The plugin details have then been added to the `rules.json` file.
